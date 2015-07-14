@@ -73,5 +73,52 @@ class AirplaneTest < Minitest::Test
   end
 
   class SecondIteration < AirplaneTest
+    def setup
+      @x        = 20
+      @y        = 60
+      @flying   = false
+      @speed    = 0
+      @fuel     = 200
+      @airplane = Airplane.new(x: @x, y: @y, flying: @flying, speed: @speed, fuel: @fuel)
+    end
+
+    def test_airplane_is_not_crashed
+      assert !@airplane.crashed
+    end
+
+    def test_grounded
+      assert_equal !@flying, @airplane.grounded
+    end
+
+    def set_position
+      @airplane.set_speed(5)
+      @airplane.set_position
+      # we don't change x yet, we only fly 'north'
+      assert_equal Hash(x: @x, y: @y + 5), @airplane.position
+    end
+
+    # to make this test pass, let every method return 'self'
+    def test_commands_can_be_chained
+      assert_equal @airplane, @airplane.take_off.accelerate.slow_down.slow_down.touchdown
+    end
+
+    # to make this test pass, let every method return 'self'
+    def test_consume_fuel_in_relation_to_speed
+      assert_equal @fuel - 5, @airplane.set_speed(5).consume_fuel.fuel
+    end
+
+    def test_status
+      assert_equal "initialized", @airplane.status
+    end
+
+    def test_fly_with_airplane_on_ground
+      assert_equal "Grounded at {:x=>20, :y=>60}", @airplane.fly.status
+    end
+
+    def test_fly
+      @airplane.take_off.set_speed(5)
+      assert_equal "Flying at {:x=>20, :y=>65}", @airplane.fly.status
+      assert_equal @fuel - 5, @airplane.fuel
+    end
   end
 end
