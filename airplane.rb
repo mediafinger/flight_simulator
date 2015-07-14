@@ -24,7 +24,7 @@ class Airplane
     @speed = new_speed
   end
 
-  def accelarate
+  def accelerate
     set_speed(speed + 2)
   end
 
@@ -33,7 +33,7 @@ class Airplane
   end
 
   def take_off
-    accelarate
+    accelerate
     @flying = true
   end
 

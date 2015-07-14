@@ -45,7 +45,7 @@ class AirplaneTest < Minitest::Test
     end
 
     def test_accelerate
-      @airplane.accelarate
+      @airplane.accelerate
       assert_equal 2, @airplane.speed
     end
 

@@ -14,7 +14,7 @@ Bonus tasks:
 
 ## First Iteration
 
-Let's first set up the basics. Read the tasks, then make the tests green one by one. Just fulfill the requirements - and use the same names! The tests are already written, so you just have to make them pass.
+Let's first set up the basics. Read the tasks, then make the tests green __one by one__. Just fulfill the requirements - and use the same names! The tests are already written, so you just have to make them pass.
 
 ### Running the tests:
 
