@@ -1,5 +1,6 @@
 class Airplane
-  attr_reader :flying, :speed, :fuel
+  attr_accessor :crashed
+  attr_reader :flying, :speed, :fuel, :status
     # this syntax is used to define 'required parameters' aka 'required keyword arguments'
   def initialize(x:, y:, flying: false, speed: 0, fuel: 500)
     @x      = x
@@ -7,10 +8,32 @@ class Airplane
     @flying = flying
     @fuel   = fuel
     set_speed(speed)
+    @crashed = false
+    @status  = "initialized"
+  end
+
+  def fly
+    if @flying
+      consume_fuel.set_position
+      @status = "Flying at #{position}"
+    else
+      @status = "Grounded at #{position}"
+    end
+    self
+  end
+
+  def grounded
+    !flying
   end
 
   def position
     { x: @x, y: @y }
+  end
+
+  def set_position
+    @x = @x         # not changed yet
+    @y = @y + speed # our plane flys only 'north'
+    self
   end
 
   def set_speed(new_speed)
@@ -22,6 +45,7 @@ class Airplane
     # this should be the only method that sets @speed,
     # otherwise the validations are not used
     @speed = new_speed
+    self
   end
 
   def accelerate
@@ -35,10 +59,17 @@ class Airplane
   def take_off
     accelerate
     @flying = true
+    self
   end
 
   def touchdown
     slow_down
     @flying = false
+    self
+  end
+
+  def consume_fuel
+    @fuel = [fuel - speed, 0].max
+    self
   end
 end
